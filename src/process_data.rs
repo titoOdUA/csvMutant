@@ -1,6 +1,6 @@
 use csv::{Error, StringRecord};
 
-pub fn get_raw_data(origin_rows: Vec<Result<StringRecord, Error>>) -> Vec<Vec<String>> {
+pub fn get_raw_data(origin_rows: &[Result<StringRecord, Error>]) -> Vec<Vec<String>> {
     let mut raw_data_rows = vec![];
     for row in &origin_rows[0..] {
         match row {
@@ -14,11 +14,11 @@ pub fn get_raw_data(origin_rows: Vec<Result<StringRecord, Error>>) -> Vec<Vec<St
     raw_data_rows
 }
 
-pub fn change_na_to_dashes(raw_data_rows: &mut [Vec<String>]) {
+pub fn change_na_values(raw_data_rows: &mut [Vec<String>], new_val: &str) {
     for row in raw_data_rows.iter_mut() {
         for item in row.iter_mut() {
             if *item == "n/a" {
-                *item = String::from("222")
+                *item = new_val.to_string();
             }
         }
     }
