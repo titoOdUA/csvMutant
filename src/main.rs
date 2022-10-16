@@ -20,7 +20,6 @@ fn main() {
         }
         None => panic!("Can't determine file path for result file!"),
     };
-
     //decode file content to utf8, change separator
     let transcoder = reader::prepare_decoder(file);
     //init reader
@@ -29,21 +28,26 @@ fn main() {
     let mut writer = writer::init_writer(result_file_path);
     //read records from file
     let origin_rows = reader::read_rows(rdr);
-
     //convert records to raw data
     let mut raw_data_rows = process_data::get_raw_data(&origin_rows);
 
+    //main logic block of the application
     match &args.command {
         Some(command) => match command {
             Commands::DeleteRows { n } => {
                 raw_data_rows.drain(0..*n as usize);
             }
+            Commands::ReplaceNA { val } => {
+                process_data::change_na_values(&mut raw_data_rows, val);
+            }
         },
-        None => println!("Command was not specified, executing the default behaviour"),
+        None => {
+            println!("Command was not specified, executing the default behaviour.\nWhich is to replace n/a values with - symbol");
+            process_data::change_na_values(&mut raw_data_rows, "-");
+        }
     }
 
     //process_data to apply changes if necessary
-    process_data::change_na_to_dashes(&mut raw_data_rows);
     //write changed data to file
     writer::write_to_file(&mut writer, &raw_data_rows);
     writer.flush().expect("Failed to flush writer!");

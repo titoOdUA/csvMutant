@@ -25,4 +25,10 @@ pub enum Commands {
         #[arg(short, long)]
         n: u8,
     },
+    /// Replace n/a values with provided string/char
+    ReplaceNA {
+        /// cell value to replace n/a
+        #[arg(short, long)]
+        val: String,
+    },
 }
