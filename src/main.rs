@@ -21,7 +21,7 @@ fn main() {
         None => panic!("Can't determine file path for result file!"),
     };
     //decode file content to utf8, change separator
-    let transcoder = reader::prepare_decoder(file);
+    let transcoder = reader::prepare_decoder(file, args.encoding);
     //init reader
     let rdr = reader::init_reader(transcoder);
     //init writer
