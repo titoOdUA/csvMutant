@@ -1,6 +1,6 @@
 use csv::{Error, StringRecord};
 
-pub fn get_raw_data(origin_rows: Vec<Result<StringRecord, Error>>) -> Vec<Vec<String>> {
+pub fn get_raw_data(origin_rows: &[Result<StringRecord, Error>]) -> Vec<Vec<String>> {
     let mut raw_data_rows = vec![];
     for row in &origin_rows[0..] {
         match row {
