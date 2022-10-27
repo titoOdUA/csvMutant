@@ -31,17 +31,20 @@ pub fn change_dates_format(
     original_format: &str,
     dates_row_index: usize,
 ) {
-    let dates_row = raw_data_rows.get_mut(dates_row_index).expect("Can't find dates row!");
+    let dates_row = raw_data_rows
+        .get_mut(dates_row_index)
+        .expect("Can't find dates row!");
     println!("Dates row before changes: {:?}", dates_row);
     println!("--------------------------------");
-    dates_row
-        .iter_mut()
-        .for_each(|value| {
-            let naive_date = NaiveDate::parse_from_str(value, original_format).ok();
-            if let Some(d) = naive_date {
-                *value = d.format("%d.%m.%Y").to_string();
-            }
-        });
+    dates_row.iter_mut().for_each(|value| {
+        let naive_date = NaiveDate::parse_from_str(value, original_format).ok();
+        if let Some(d) = naive_date {
+            *value = d.format("%d.%m.%Y").to_string();
+        }
+    });
 
-    println!("Dates row after chages: {:?}", raw_data_rows.get(dates_row_index));
+    println!(
+        "Dates row after chages: {:?}",
+        raw_data_rows.get(dates_row_index)
+    );
 }

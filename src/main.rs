@@ -11,7 +11,7 @@ fn main() {
     //parse_args and get file path
     let args = args::Cli::parse();
     let file_path = args.path;
-    let file = File::open(&file_path).expect("Failed to open file!");
+    let mut file = File::open(&file_path).expect("Failed to open file!");
     //determine location and name for the result file, location == location of the original file
     let result_file_path = match file_path.parent() {
         Some(path) => {
@@ -20,10 +20,13 @@ fn main() {
         }
         None => panic!("Can't determine file path for result file!"),
     };
+
+    //try to detect separator or rollback to default ;
+    let separator = reader::detect_separator(&mut file);
     //decode file content to utf8, change separator
     let transcoder = reader::prepare_decoder(file, args.encoding);
     //init reader
-    let rdr = reader::init_reader(transcoder);
+    let rdr = reader::init_reader(transcoder, separator);
     //init writer
     let mut writer = writer::init_writer(result_file_path);
     //read records from file
