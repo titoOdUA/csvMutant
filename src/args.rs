@@ -35,6 +35,16 @@ pub enum Commands {
         #[arg(short, long)]
         val: String,
     },
+    /// Change format of dates in the source file to the valid one
+    ChangeDatesFormat {
+        /// specify format used in source file in %m.%d.%y like format
+        #[arg(short, long)]
+        format: String,
+        #[arg(short, long)]
+        /// specify number of the row with dates data
+        #[arg(default_value_t = 0)]
+        dates_row_number: usize,
+    },
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]

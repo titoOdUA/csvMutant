@@ -10,3 +10,4 @@ encoding_rs = "0.8.31"
 encoding_rs_io = "0.1.7"
 csv = "1.1.6"
 clap = {version = "4.0.15", features = ["derive"]}
+chrono = "0.4.22"

@@ -40,6 +40,10 @@ fn main() {
             Commands::ReplaceNA { val } => {
                 process_data::change_na_values(&mut raw_data_rows, val);
             }
+            Commands::ChangeDatesFormat {
+                format,
+                dates_row_number,
+            } => process_data::change_dates_format(&mut raw_data_rows, format, *dates_row_number),
         },
         None => {
             println!("Command was not specified, executing the default behaviour.\nWhich is to replace n/a values with - symbol");
